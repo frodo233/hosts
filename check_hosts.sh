@@ -1,8 +1,18 @@
 #!/bin/bash
-FILE="$HOME/etc/hosts"
+
+if [ $# -ne 1 ]; then
+    echo "Utilizare: $0 <fisier_hosts>" >&2
+    exit 1
+fi
+
+FILE="$1"
+
+if [ ! -f "$FILE" ]; then
+    echo "Eroare: fisierul '$FILE' nu exista." >&2
+    exit 2
+fi
 
 while read -r ip rest; do
-    # sarim peste linii goale si comentarii
     [[ -z "$ip" || "$ip" == \#* ]] && continue
 
     valid=1
